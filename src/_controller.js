@@ -2,9 +2,9 @@
 function getText(el) {
   var selection = document.querySelector(el);
   if (selection && selection.innerText) {
-  	return selection.innerText;
+  	return selection.innerText.trim();
   } else {
-  	return 'NOT FOUND';
+  	return false;
   }
 }
 
@@ -12,25 +12,30 @@ function getText(el) {
 function getAttributeValue(el, attr) {
 	var selection = document.querySelector(el);
 	if (selection && selection.getAttribute(attr)) {
-		return selection.getAttribute(attr);
+		return selection.getAttribute(attr).trim();
 	} else {
-		return 'NOT FOUND';
+		return false;
 	}
 }
 
 // Wrapper for using .match with document.querySelector
 function getTextMatch(el, regex, pos) {
 	pos = pos || 0;
-	var match = getText(el).match(regex)
-	if (match) {
-		return match[pos]
+	if (getText(el).length) {
+		var match = getText(el).match(regex)
+		if (match) {
+			return match[pos]
+		} else {
+			return false;
+		}
 	} else {
-		return 'NO MATCH';
+		return false;
 	}
 }
 
 
-var host = window.location.host.replace(/^www\./, '').replace(/\.\w+/, '');
+// Grab the name of the host and execute function of the same name
+var host = window.location.host.replace(/^www\./, '').replace(/\.\w+/, '').toLowerCase();
 if (typeof this[host] === 'function') {
 	this[host]();
 }

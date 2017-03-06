@@ -7,7 +7,7 @@ gulp.task('scripts', function() {
 	return gulp.src('./src/*.js')
 	.pipe(concat('build.js'))
 	.pipe(uglify())
-	.pipe(gulp.dest('build'))
+	.pipe(gulp.dest('chromeExtension'))
 });
 
 // Watch any changes in the src directory

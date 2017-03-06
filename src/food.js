@@ -9,27 +9,27 @@ function food() {
 
 	// Create recipe object
 	var recipe = {
-		title: getAttributeValue('meta[property="og:title"]', 'content').replace(' - Food.com', ''),
+		title: $('meta[property="og:title"]').attr('content').replace(' - Food.com', ''),
 		url: window.location.href,
-	  readyIn: getText('.total-time div'),
-	  cals: getText('.calories'),
-	  servings: getTextMatch('.servings', /\d+/),
+	  readyIn: $('.recipe-cooktime').text().trim().replace('READY IN:', '').trim(),
+	  cals: $('.calories').text().trim(),
+	  servings: getTextMatch('#yield-servings .count', /\d+/),
 	};
 
 	// Description
 	var description = '';
-	document.querySelectorAll('[data-module="recipeDirections"] li').forEach(function(paragraph) {
-		if (paragraph.innerText.trim() !== '' && paragraph.innerText.trim() !== 'Submit a Correction') {
-			description += paragraph.innerText + '<br><br>';
+	$('[data-module="recipeDirections"] li').each(function() {
+		if ($(this).text().trim() !== '' && $(this).text().trim() !== 'Submit a Correction') {
+			description += $(this).text().trim() + '<br><br>';
 		}
 	});
 	recipe.description = description;
 
 	// Ingredients
 	var ingredients = [];
-	document.querySelectorAll('li[data-ingredient]').forEach(function(ing) {
-		if (ing.innerText.trim() !== 'Add all ingredients to list') {
-			ingredients.push(ing.innerText);
+	$('li[data-ingredient]').each(function() {
+		if ($(this).text().trim() !== 'Add all ingredients to list') {
+			ingredients.push($(this).text().trim());
 		}
 	});
 	recipe.ingredients = ingredients;

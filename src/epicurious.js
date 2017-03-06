@@ -8,10 +8,10 @@ function epicurious() {
 
 	// Create recipe object
 	var recipe = {
-		title: getAttributeValue('meta[property="og:title"]', 'content'),
+		title: $('meta[property="og:title"]').attr('content'),
 		url: window.location.href,
 	  readyIn: '',
-	  cals: getText('.nutri-data[itemprop="calories"]'),
+	  cals: $('.nutri-data[itemprop="calories"]').text().trim(),
 	};
 
 	recipe.servings = getTextMatch('.yield[itemprop="recipeYield"]', /\d+/);
@@ -19,17 +19,17 @@ function epicurious() {
 
 	// Description
 	var description = '';
-	document.querySelectorAll('.preparation-step').forEach(function(paragraph) {
-		if (paragraph.innerText.trim() !== '') {
-			description += paragraph.innerText + '<br><br>';
+	$('.preparation-step').each(function(){
+		if ($(this).text().trim() !== '') {
+			description += $(this).text().trim() + '<br><br>';
 		}
 	});
 	recipe.description = description;
 
 	// Ingredients
 	var ingredients = [];
-	document.querySelectorAll('.ingredients-info .ingredient').forEach(function(ing) {
-		ingredients.push(ing.innerText);
+	$('.ingredients-info .ingredient').each(function() {
+		ingredients.push($(this).text().trim());
 	});
 	recipe.ingredients = ingredients;
 

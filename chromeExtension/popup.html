@@ -1,0 +1,201 @@
+<!doctype html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with value "popup.html".
+ -->
+<html>
+  <head>
+    <title>Recipe Saver Extension</title>
+    <link href="https://fonts.googleapis.com/css?family=Cabin:400,600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="reset.css">
+    <style>
+      body {
+        border-top: solid 5px #2b90c0;
+        font-family: 'Raleway', sans-serif;
+        width: 400px;
+      }
+      #captured-message {
+        display: none;
+        text-align: center;
+        font-size: 15px;
+        margin-top: 8px;
+        font-style: italic;
+        color: gray;
+      }
+      #recipe-form {
+        padding: 20px;
+      }
+      #more {
+        text-align: center;
+        color: white;
+        padding: 10px 0;
+        cursor: pointer;
+        border: solid 1px #2b90c0;
+        color: black;
+        font-size: 13px;
+        margin: 10px 0;
+      }
+      #more::after {
+        content: url(dropdown-arrow.png);
+        padding-left: 5px;
+        position: absolute;
+      }
+      #more:hover {
+        background-color: #f4f4f4;
+      }
+      #extra-data {
+        display: none;
+      }
+
+      .field-title {
+        color: #2b90c0;
+        font-size: 15px;
+        margin-bottom: 4px;
+        font-weight: bold;
+      }
+      .field-title-small {
+        font-size: 12px;
+      }
+      .field, input[type="submit"]  {
+        margin-bottom: 12px;
+        width: 100%;
+        border: solid 1px #dadada;
+        border-radius: 2px;
+        min-height: 34px;
+        font-size: 14px;
+        line-height: 19px;
+      }
+      input[type="text"] {
+        padding-left: 5px;
+      }
+      input[type="submit"] {
+        background-color: #2b90c0;
+        border: solid 1px #2b90c0;
+        color: white;
+        margin-top: 16px;
+        height: 44px;
+        line-height: 44px;
+        font-size: 15.5px;
+        cursor: pointer;
+      }
+      input[type="submit"]:hover {
+        border: solid 1px #23d82f;
+        background-color: #23d82f;
+      }
+      textarea {
+        font-family: 'Raleway', sans-serif;
+      }
+      #ingredients, #description {
+        box-sizing: border-box;
+        padding: 5px;
+        min-height: 55px;
+      }
+      #extra-wrap {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+      }
+      .extra-group .field-title {
+        display: inline-block;
+      }
+      #serves {
+        width: 30px;
+      }
+      #ready-in {
+        width: 55px;
+      }
+      #cals {
+        width: 42px;
+      }
+      #footer {
+        background-color: #3a3b41;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 13px 8px;
+      }
+      #footer img {
+        display: inline-block;
+        float: left;
+      }
+      #logo-text {
+        display: inline-block;
+        float: left;
+        margin-top: 6px;
+        margin-left: 6px;
+        font-family: 'Cabin', sans-serif;
+        letter-spacing: 1px;
+        font-size: 17px;
+        color: white;
+        text-decoration: none;
+      }
+      #footer-right a {
+        color: white;
+        text-decoration: none;
+        font-size: 13.5px;
+        border: solid 1px #8f8989;
+        padding: 2px 5px;
+      }
+      #footer-right a:hover {
+        border: solid 1px #2b90c0;
+      }
+    </style>
+    <!-- JavaScript and HTML must be in separate files -->
+	<meta charset='utf-8'>
+  </head>
+	<body>
+    <div id="wrapper">
+      <div id="captured-message">
+        Recipe captured from <span id="loc"></span> integration!
+      </div>
+
+      <form id="recipe-form">
+        <div class="field-title">Recipe Name</div>
+        <input type="text" id="name" class="field">
+        <div class="field-title">URL</div>
+        <input type="text" id="url" class="field">
+
+        <div id="more">More Details</div>
+
+        <div id="extra-data">
+          <div class="field-title">Ingredients <span class="field-title-small">(One per line)</span></div>
+          <div type="text" id="ingredients" class="field"contenteditable="true"></div>
+          <div class="field-title">Description</div>
+          <div type="text" id="description" class="field"contenteditable="true"></div>
+          <div class="field-title">Tags <span class="field-title-small">(Comma Separated)</span></div>
+          <input type="text" id="tags" class="field">
+          <div id="extra-wrap">
+            <div class="extra-group">
+              <div class="field-title">Serves</div>
+              <input type="text" id="serves" class="field">
+            </div>
+            <div class="extra-group">
+              <div class="field-title">Ready In</div>
+              <input type="text" id="ready-in" class="field" placeholder="mins">
+            </div>
+            <div class="extra-group">
+              <div class="field-title">Calories</div>
+              <input type="text" id="cals" class="field">
+            </div>
+          </div>
+        </div>
+        <input type="submit" value="Save Recipe" id="save">
+      </form>
+
+      <div id="footer">
+        <a id="footer-left" href="http://www.recipesaver.net" target="_blank">
+          <img src="footer-icon.png">
+          <div id="logo-text">Recipe Saver</div>
+        </a>
+        <div id="footer-right">
+          <a href="http://www.recipesaver.net/recipes" target="_blank">My Recipes</a>
+        </div>
+      </div>
+    </div>
+
+  <script src="jquery-1.11.2.min.js"></script>
+  <script src="popup.js"></script>
+  </body>
+</html>
+

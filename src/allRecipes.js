@@ -9,34 +9,35 @@ function allrecipes() {
 
 	// Create recipe object
 	var recipe = {
-		title: getText('.recipe-summary__h1').trim(),
+		title: $('.recipe-summary__h1').text().trim(),
 		url: window.location.href,
-	  readyIn: getText('.ready-in-time'),
+	  readyIn: $('.ready-in-time').text().trim(),
 	  cals: '',
-	  servings: getText('#servings-button .servings-count span'),
+	  servings: $('#servings-button .servings-count span').text().trim().replace(' servings', ''),
 	};
 
 
 	// Calories
-	var calorieText = getText('.calorie-count');
+	var calorieText = $('.calorie-count').text().trim();
 	if (/\d+/.test(calorieText)) {
 		recipe.cals = getTextMatch('.calorie-count', /\d+/);
 	}
 
 	// Description
 	var description = '';
-	document.querySelectorAll('.recipe-directions__list--item').forEach(function(paragraph) {
-		if (paragraph.innerText.trim() !== '') {
-			description += paragraph.innerText + '<br><br>';
+	$('.recipe-directions__list--item').each(function() {
+		if ($(this).text().trim() !== '') {
+			description += $(this).text().trim() + '<br><br>';
 		}
 	});
 	recipe.description = description;
 
+
 	// Ingredients
 	var ingredients = [];
-	document.querySelectorAll('.recipe-ingred_txt').forEach(function(ing) {
-		if (ing.innerText.trim() !== 'Add all ingredients to list') {
-			ingredients.push(ing.innerText);
+	$('.recipe-ingred_txt').each(function() {
+		if ($(this).text().trim() !== 'Add all ingredients to list') {
+			ingredients.push($(this).text().trim());
 		}
 	});
 	recipe.ingredients = ingredients;

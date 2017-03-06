@@ -2,7 +2,8 @@
 function chowhound() {
 
 	// Eligible recipe page
-	var eligiblePage = getAttributeValue('meta[property="bt:type"]', 'content');
+	// 
+	var eligiblePage = $('meta[property="bt:type"]').attr('content');
 
 	if (!eligiblePage) {
 		return;
@@ -10,32 +11,31 @@ function chowhound() {
 
 	// Create recipe object
 	var recipe = {
-		title: getAttributeValue('meta[property="og:title"]', 'content').replace(' Recipe', ''),
+		title: $('meta[property="og:title"]').attr('content').replace(' Recipe', ''),
 		url: window.location.href,
-	  readyIn: getText('time'),
+	  readyIn: $('time').text().trim(),
 	  cals: '',
 	  servings: getTextMatch('.frr_serves', /\d+/),
 	};
 
 	// Description
 	var description = '';
-	document.querySelectorAll('.frr_wrap[itemprop="recipeInstructions"] ol > li').forEach(function(paragraph) {
-		if (paragraph.innerText.trim() !== '') {
-			description += paragraph.innerText.replace(/^\d([A-Z])/, '$1') + '<br><br>';
+	$('.frr_wrap[itemprop="recipeInstructions"] ol > li').each(function() {
+		if ($(this).text().trim() !== '') {
+			description += $(this).text().trim().replace(/^\d*([A-Z])/, '$1') + '<br><br>';
 		}
 	});
 	recipe.description = description;
+	console.log(description)
 
 	// Ingredients
 	var ingredients = [];
-	document.querySelectorAll('li[itemprop="ingredients"]').forEach(function(ing) {
-		if (ing.innerText.trim() !== '') {
-			ingredients.push(ing.innerText);
+	$('li[itemprop="ingredients"]').each(function() {
+		if ($(this).text().trim() !== '') {
+			ingredients.push($(this).text().trim());
 		}
 	});
 	recipe.ingredients = ingredients;
 
-
 	return recipe;
 }
-

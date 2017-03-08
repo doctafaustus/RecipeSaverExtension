@@ -10,9 +10,6 @@ function foodnetwork() {
 	var recipe = {
 		title: $('meta[property="og:title"]').attr('content'),
 		url: window.location.href,
-	  readyIn: $('.o-RecipeInfo__a-Description--Total').first().text().trim(),
-	  cals: '',
-	  servings: getTextMatch('.o-RecipeInfo.o-Yield .o-RecipeInfo__a-Description', /\d+/),
 	};
 
 	// Description

@@ -91,10 +91,14 @@
         padding: 5px;
         min-height: 55px;
       }
+      #ingredients {
+        width: 100%;
+      }
       #extra-wrap {
         display: flex;
         justify-content: space-between;
         margin-top: 10px;
+        display: none; /* Too difficult to implement ATM */
       }
       .extra-group .field-title {
         display: inline-block;
@@ -160,7 +164,7 @@
 
         <div id="extra-data">
           <div class="field-title">Ingredients <span class="field-title-small">(One per line)</span></div>
-          <div type="text" id="ingredients" class="field"contenteditable="true"></div>
+          <textarea id="ingredients" class="field"></textarea>
           <div class="field-title">Description</div>
           <div type="text" id="description" class="field"contenteditable="true"></div>
           <div class="field-title">Tags <span class="field-title-small">(Comma Separated)</span></div>

@@ -11,9 +11,6 @@ function food() {
 	var recipe = {
 		title: $('meta[property="og:title"]').attr('content').replace(' - Food.com', ''),
 		url: window.location.href,
-	  readyIn: $('.recipe-cooktime').text().trim().replace('READY IN:', '').trim(),
-	  cals: $('.calories').text().trim(),
-	  servings: getTextMatch('#yield-servings .count', /\d+/),
 	};
 
 	// Description

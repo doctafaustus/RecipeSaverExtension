@@ -10,12 +10,7 @@ function epicurious() {
 	var recipe = {
 		title: $('meta[property="og:title"]').attr('content'),
 		url: window.location.href,
-	  readyIn: '',
-	  cals: $('.nutri-data[itemprop="calories"]').text().trim(),
 	};
-
-	recipe.servings = getTextMatch('.yield[itemprop="recipeYield"]', /\d+/);
-
 
 	// Description
 	var description = '';

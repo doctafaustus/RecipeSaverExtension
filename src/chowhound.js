@@ -13,9 +13,6 @@ function chowhound() {
 	var recipe = {
 		title: $('meta[property="og:title"]').attr('content').replace(' Recipe', ''),
 		url: window.location.href,
-	  readyIn: $('time').text().trim(),
-	  cals: '',
-	  servings: getTextMatch('.frr_serves', /\d+/),
 	};
 
 	// Description
@@ -26,7 +23,6 @@ function chowhound() {
 		}
 	});
 	recipe.description = description;
-	console.log(description)
 
 	// Ingredients
 	var ingredients = [];

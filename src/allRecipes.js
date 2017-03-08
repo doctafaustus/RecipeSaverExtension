@@ -11,17 +11,7 @@ function allrecipes() {
 	var recipe = {
 		title: $('.recipe-summary__h1').text().trim(),
 		url: window.location.href,
-	  readyIn: $('.ready-in-time').text().trim(),
-	  cals: '',
-	  servings: $('#servings-button .servings-count span').text().trim().replace(' servings', ''),
 	};
-
-
-	// Calories
-	var calorieText = $('.calorie-count').text().trim();
-	if (/\d+/.test(calorieText)) {
-		recipe.cals = getTextMatch('.calorie-count', /\d+/);
-	}
 
 	// Description
 	var description = '';

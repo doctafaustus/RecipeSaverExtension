@@ -68,6 +68,7 @@
       }
       input[type="text"] {
         padding-left: 5px;
+        box-sizing: border-box;
       }
       input[type="submit"] {
         background-color: #2b90c0;
@@ -90,8 +91,6 @@
         box-sizing: border-box;
         padding: 5px;
         min-height: 55px;
-      }
-      #ingredients {
         width: 100%;
       }
       #extra-wrap {
@@ -111,6 +110,22 @@
       }
       #cals {
         width: 42px;
+      }
+
+      #success {
+        display: none;
+        margin: 20px;
+        border: solid 1px #23d82f;
+        padding: 10px;
+      }
+      #posted {
+        font-size: 16px;
+        margin-bottom: 5px;
+      }
+      #view-it a {
+        color: #2b90c0;
+        font-size: 14px;
+        font-weight: 600;
       }
       #footer {
         background-color: #3a3b41;
@@ -150,50 +165,58 @@
   </head>
 	<body>
     <div id="wrapper">
-      <div id="captured-message">
-        Recipe captured from <span id="loc"></span> integration!
-      </div>
 
-      <form id="recipe-form">
-        <div class="field-title">Recipe Name</div>
-        <input type="text" id="name" class="field">
-        <div class="field-title">URL</div>
-        <input type="text" id="url" class="field">
+      <div id="initial-view">
+        <div id="captured-message">
+          Recipe captured from <span id="loc"></span> integration!
+        </div>
 
-        <div id="more">More Details</div>
+        <form id="recipe-form">
+          <div class="field-title">Recipe Name</div>
+          <input type="text" id="name" class="field">
+          <div class="field-title">URL</div>
+          <input type="text" id="url" class="field">
 
-        <div id="extra-data">
-          <div class="field-title">Ingredients <span class="field-title-small">(One per line)</span></div>
-          <textarea id="ingredients" class="field"></textarea>
-          <div class="field-title">Description</div>
-          <div type="text" id="description" class="field"contenteditable="true"></div>
-          <div class="field-title">Tags <span class="field-title-small">(Comma Separated)</span></div>
-          <input type="text" id="tags" class="field">
-          <div id="extra-wrap">
-            <div class="extra-group">
-              <div class="field-title">Serves</div>
-              <input type="text" id="serves" class="field">
-            </div>
-            <div class="extra-group">
-              <div class="field-title">Ready In</div>
-              <input type="text" id="ready-in" class="field" placeholder="mins">
-            </div>
-            <div class="extra-group">
-              <div class="field-title">Calories</div>
-              <input type="text" id="cals" class="field">
+          <div id="more">More Details</div>
+
+          <div id="extra-data">
+            <div class="field-title">Ingredients <span class="field-title-small">(One per line)</span></div>
+            <textarea id="ingredients" class="field"></textarea>
+            <div class="field-title">Description</div>
+            <div type="text" id="description" class="field"contenteditable="true"></div>
+            <div class="field-title">Tags <span class="field-title-small">(Comma Separated)</span></div>
+            <input type="text" id="tags" class="field">
+            <div id="extra-wrap">
+              <div class="extra-group">
+                <div class="field-title">Serves</div>
+                <input type="text" id="serves" class="field">
+              </div>
+              <div class="extra-group">
+                <div class="field-title">Ready In</div>
+                <input type="text" id="ready-in" class="field" placeholder="mins">
+              </div>
+              <div class="extra-group">
+                <div class="field-title">Calories</div>
+                <input type="text" id="cals" class="field">
+              </div>
             </div>
           </div>
-        </div>
-        <input type="submit" value="Save Recipe" id="save">
-      </form>
+          <input type="submit" value="Save Recipe" id="save">
+        </form>
+      </div>
+
+      <div id="success">
+        <div id="posted">Recipe Posted!</div>
+        <div id="view-it"><a href="https://www.recipesaver.net/recipes" target="_blank">View it in your collection</a></div>
+      </div>
 
       <div id="footer">
-        <a id="footer-left" href="http://www.recipesaver.net" target="_blank">
+        <a id="footer-left" href="https://www.recipesaver.net" target="_blank">
           <img src="footer-icon.png">
           <div id="logo-text">Recipe Saver</div>
         </a>
         <div id="footer-right">
-          <a href="http://www.recipesaver.net/recipes" target="_blank">My Recipes</a>
+          <a href="https://www.recipesaver.net/recipes" target="_blank">My Recipes</a>
         </div>
       </div>
     </div>

@@ -84,6 +84,12 @@ $('#recipe-form').submit(function(e) {
 	  data: data,
 	  success: function(data) {
 	  	console.log('Sent to Recipe Saver!');
+	  	$('#initial-view').hide();
+	  	$('#success').show();
+	  },
+	  error: function() {
+	  	$('#initial-view').hide();
+	  	$('#success').show().html('Oops! Something went wrong. Please login and try again.');
 	  }
 	});
 });

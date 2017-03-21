@@ -1,6 +1,7 @@
 /* --- Set dev or prod --- */
-var mysite = 'http://localhost:3000/extension';
-//var mysite = 'https://recipesavertest.herokuapp.com/extension';
+//var mysite = 'http://localhost:3000/extension';
+var mysite = 'https://recipesaver.herokuapp.com/extension';
+// ^ Use this URL even in live production (for some reason, using http://www.recipesaver.net won't work)
 
 // Show extra field on click of "More Details"
 $('#more').click(function() {
@@ -28,7 +29,24 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     $('#url').val(response.rsFinish.url);
 
     if (response.rsFinish.ingredients && response.rsFinish.ingredients.length) {
-      $('#ingredients').val(response.rsFinish.ingredients.join('\n'));
+    	var ingredientsVal = response.rsFinish.ingredients.join('\n');
+
+    	ingredientsVal = ingredientsVal.replace(/½/gi, '1/2');
+    	ingredientsVal = ingredientsVal.replace(/¼/gi, '1/4');
+    	ingredientsVal = ingredientsVal.replace(/¾/gi, '3/4');
+    	ingredientsVal = ingredientsVal.replace(/⅛/gi, '1/8');
+    	ingredientsVal = ingredientsVal.replace(/⅜/gi, '3/8');
+    	ingredientsVal = ingredientsVal.replace(/⅝/gi, '5/8');
+    	ingredientsVal = ingredientsVal.replace(/⅞/gi, '7/8');
+    	ingredientsVal = ingredientsVal.replace(/⅔/gi, '2/3');
+    	ingredientsVal = ingredientsVal.replace(/⅕/gi, '1/5');
+    	ingredientsVal = ingredientsVal.replace(/⅖/gi, '2/5');
+    	ingredientsVal = ingredientsVal.replace(/⅗/gi, '3/5');
+    	ingredientsVal = ingredientsVal.replace(/⅘/gi, '4/5');
+    	ingredientsVal = ingredientsVal.replace(/⅙/gi, '1/6');
+    	ingredientsVal = ingredientsVal.replace(/⅚/gi, '5/6');
+
+      $('#ingredients').val(ingredientsVal);
       autosize();
     }
     
@@ -77,6 +95,12 @@ $('#recipe-form').submit(function(e) {
 		});
 	}
 
+	// Validate for name
+	if ($('#name').val().length < 1) {
+		$('#success').show().html('Recipe must include a name');
+		return;
+	}
+
 	$.ajax({
 		type: 'POST',
 	  url: mysite,
@@ -87,9 +111,15 @@ $('#recipe-form').submit(function(e) {
 	  	$('#initial-view').hide();
 	  	$('#success').show();
 	  },
-	  error: function() {
+	  error: function(jqXHR) {
 	  	$('#initial-view').hide();
-	  	$('#success').show().html('Oops! Something went wrong. Please login and try again.');
+			if (jqXHR.status === 413) {
+	  		$('#success').show().html('Recipe is too large');
+			} else if (jqXHR.status === 403) {
+				$('#success').show().html('You\'ve reached your maximum storage limit.<br>Please <a href="https://www.recipesaver.net/plans" target="_blank">upgrade</a> your account to store more recipes.');
+			} else {
+	  		$('#success').show().html('Oops! Something went wrong. Please login and try again.');
+			}
 	  }
 	});
 });

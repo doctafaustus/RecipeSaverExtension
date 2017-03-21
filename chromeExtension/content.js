@@ -1,6 +1,4 @@
 // This script runs in the visited page that's open in Chrome
-console.log('I\'m a content script!');
-
 
 if (window.location.hostname === 'recipesaver.herokuapp.com' || window.location.hostname === 'www.recipesaver.net' || window.location.hostname === '127.0.0.1') {
 	

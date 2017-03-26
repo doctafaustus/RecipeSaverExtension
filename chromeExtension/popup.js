@@ -31,6 +31,23 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     if (response.rsFinish.ingredients && response.rsFinish.ingredients.length) {
     	var ingredientsVal = response.rsFinish.ingredients.join('\n');
 
+
+    	// For instances like "1½"
+    	ingredientsVal = ingredientsVal.replace(/(\d+)½/gi, '$1 1/2');
+    	ingredientsVal = ingredientsVal.replace(/(\d+)¼/gi, '$1 1/4');
+    	ingredientsVal = ingredientsVal.replace(/(\d+)¾/gi, '$1 3/4');
+    	ingredientsVal = ingredientsVal.replace(/(\d+)⅛/gi, '$1 1/8');
+    	ingredientsVal = ingredientsVal.replace(/(\d+)⅜/gi, '$1 3/8');
+    	ingredientsVal = ingredientsVal.replace(/(\d+)⅝/gi, '$1 5/8');
+    	ingredientsVal = ingredientsVal.replace(/(\d+)⅞/gi, '$1 7/8');
+    	ingredientsVal = ingredientsVal.replace(/(\d+)⅔/gi, '$1 2/3');
+    	ingredientsVal = ingredientsVal.replace(/(\d+)⅕/gi, '$1 1/5');
+    	ingredientsVal = ingredientsVal.replace(/(\d+)⅖/gi, '$1 2/5');
+    	ingredientsVal = ingredientsVal.replace(/(\d+)⅗/gi, '$1 3/5');
+    	ingredientsVal = ingredientsVal.replace(/(\d+)⅘/gi, '$1 4/5');
+    	ingredientsVal = ingredientsVal.replace(/(\d+)⅙/gi, '$1 1/6');
+    	ingredientsVal = ingredientsVal.replace(/(\d+)⅚/gi, '$1 5/6');
+
     	ingredientsVal = ingredientsVal.replace(/½/gi, '1/2');
     	ingredientsVal = ingredientsVal.replace(/¼/gi, '1/4');
     	ingredientsVal = ingredientsVal.replace(/¾/gi, '3/4');
@@ -46,6 +63,9 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     	ingredientsVal = ingredientsVal.replace(/⅙/gi, '1/6');
     	ingredientsVal = ingredientsVal.replace(/⅚/gi, '5/6');
 
+
+
+
       $('#ingredients').val(ingredientsVal);
       autosize();
     }
@@ -59,6 +79,12 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     // If recipe was captured via an integration then show capture message
     if (response.rsFinish.capturedLocation) {
       $('#captured-message').show();
+
+      // If captured location was Buzzfeed then change it to Tasty
+      if (response.rsFinish.capturedLocation === 'buzzfeed') {
+      	response.rsFinish.capturedLocation = 'tasty';
+      }
+
       $('#loc').text(response.rsFinish.capturedLocation);
       $('body').attr('style', 'border-top: solid 5px #23d82f;');
       $('#more').hide();
@@ -118,7 +144,7 @@ $('#recipe-form').submit(function(e) {
 			} else if (jqXHR.status === 403) {
 				$('#success').show().html('You\'ve reached your maximum storage limit.<br>Please <a href="https://www.recipesaver.net/plans" target="_blank">upgrade</a> your account to store more recipes.');
 			} else {
-	  		$('#success').show().html('Oops! Something went wrong. Please login and try again.');
+	  		$('#success').show().html('Oops! Something went wrong. Please <a target="_blank" href="https://www.recipesaver.net/">login</a> and try again.');
 			}
 	  }
 	});

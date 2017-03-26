@@ -13,7 +13,6 @@ if (window.location.hostname === 'recipesaver.herokuapp.com' || window.location.
 }
 
 
-
 // Receive message from extension
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
@@ -26,18 +25,29 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		if (typeof this[host] === 'function') {
 			console.log('executing: ' + host);
 			recipe = this[host]();
-			recipe.capturedLocation = host;
+
+			if (recipe) {
+				recipe.capturedLocation = host;
+			} else {
+				recipe = defaultParse();
+			}
+
 		} else {
-			recipe = {
-				title: $('title').text().trim().replace(/\s([|\-—:>•·~\[,]+|(by|from|recipe)?)\s.*/, ''),
-				url: window.location.href,
-			};
+			recipe = defaultParse();
 		}
 
 		sendResponse({rsFinish: recipe });
 	}
 
 });
+
+
+function defaultParse() {
+	return {
+		title: $('title').text().trim().replace(/\s([|\-—:>•·~\[,]+|(by|from|recipe)?)\s.*/, ''),
+		url: window.location.href,
+	};
+}
 
 
 

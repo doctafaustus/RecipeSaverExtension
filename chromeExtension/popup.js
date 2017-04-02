@@ -28,53 +28,22 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 
     $('#url').val(response.rsFinish.url);
 
+    var ingredientsVal = '';
     if (response.rsFinish.ingredients && response.rsFinish.ingredients.length) {
-    	var ingredientsVal = response.rsFinish.ingredients.join('\n');
-
-
-    	// For instances like "1½"
-    	ingredientsVal = ingredientsVal.replace(/(\d+)½/gi, '$1 1/2');
-    	ingredientsVal = ingredientsVal.replace(/(\d+)¼/gi, '$1 1/4');
-    	ingredientsVal = ingredientsVal.replace(/(\d+)¾/gi, '$1 3/4');
-    	ingredientsVal = ingredientsVal.replace(/(\d+)⅛/gi, '$1 1/8');
-    	ingredientsVal = ingredientsVal.replace(/(\d+)⅜/gi, '$1 3/8');
-    	ingredientsVal = ingredientsVal.replace(/(\d+)⅝/gi, '$1 5/8');
-    	ingredientsVal = ingredientsVal.replace(/(\d+)⅞/gi, '$1 7/8');
-    	ingredientsVal = ingredientsVal.replace(/(\d+)⅔/gi, '$1 2/3');
-    	ingredientsVal = ingredientsVal.replace(/(\d+)⅕/gi, '$1 1/5');
-    	ingredientsVal = ingredientsVal.replace(/(\d+)⅖/gi, '$1 2/5');
-    	ingredientsVal = ingredientsVal.replace(/(\d+)⅗/gi, '$1 3/5');
-    	ingredientsVal = ingredientsVal.replace(/(\d+)⅘/gi, '$1 4/5');
-    	ingredientsVal = ingredientsVal.replace(/(\d+)⅙/gi, '$1 1/6');
-    	ingredientsVal = ingredientsVal.replace(/(\d+)⅚/gi, '$1 5/6');
-
-    	ingredientsVal = ingredientsVal.replace(/½/gi, '1/2');
-    	ingredientsVal = ingredientsVal.replace(/¼/gi, '1/4');
-    	ingredientsVal = ingredientsVal.replace(/¾/gi, '3/4');
-    	ingredientsVal = ingredientsVal.replace(/⅛/gi, '1/8');
-    	ingredientsVal = ingredientsVal.replace(/⅜/gi, '3/8');
-    	ingredientsVal = ingredientsVal.replace(/⅝/gi, '5/8');
-    	ingredientsVal = ingredientsVal.replace(/⅞/gi, '7/8');
-    	ingredientsVal = ingredientsVal.replace(/⅔/gi, '2/3');
-    	ingredientsVal = ingredientsVal.replace(/⅕/gi, '1/5');
-    	ingredientsVal = ingredientsVal.replace(/⅖/gi, '2/5');
-    	ingredientsVal = ingredientsVal.replace(/⅗/gi, '3/5');
-    	ingredientsVal = ingredientsVal.replace(/⅘/gi, '4/5');
-    	ingredientsVal = ingredientsVal.replace(/⅙/gi, '1/6');
-    	ingredientsVal = ingredientsVal.replace(/⅚/gi, '5/6');
-
-
-
-
-      $('#ingredients').val(ingredientsVal);
-      autosize();
+      ingredientsVal = '<b>Ingredients:</b><br><ul>';
+      response.rsFinish.ingredients.forEach(function(ing) {
+        ingredientsVal += '<li>' + ing + '</li>';
+      });
+      ingredientsVal += '</ul><br>';
     }
     
-    $('#description').html(response.rsFinish.description);
+    var descriptionVal = '';
+    if (response.rsFinish.description) {
+      descriptionVal = response.rsFinish.description;
+    }
 
-    // $('#serves').val(response.rsFinish.servings);
-    // $('#ready-in').val(response.rsFinish.readyIn);
-    // $('#cals').val(response.rsFinish.cals);
+    $('#description').html(ingredientsVal + descriptionVal);
+
 
     // If recipe was captured via an integration then show capture message
     if (response.rsFinish.capturedLocation) {
@@ -101,12 +70,8 @@ $('#recipe-form').submit(function(e) {
 	var data = {
 		rs_id: rs_id,
 		recipeName: $('#name').val(),
-		ingredients: $('#ingredients').val().split('\n'),
 		description: $('#description').html(),
 		url: $('#url').val(),
-		// servings: $('#serves').val(),
-		// readyIn: $('#ready-in').val(),
-		// cals: $('#cals').val(),
 	};
 	// Tags
 	if ($('#tags').val().length) {
@@ -149,14 +114,3 @@ $('#recipe-form').submit(function(e) {
 	  }
 	});
 });
-
-
-// Auto size textarea on keydown
-var textarea = document.getElementById('ingredients');
-textarea.addEventListener('keydown', autosize);
-function autosize() {
-  setTimeout(function(){
-    textarea.style.cssText = 'height: auto; padding :0;';
-    textarea.style.cssText = 'height:' + (textarea.scrollHeight + 15) + 'px;';
-  },0);
-}

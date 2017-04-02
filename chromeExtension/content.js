@@ -44,7 +44,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 function defaultParse() {
 	return {
-		title: $('title').text().trim().replace(/\s([|\-—:>•·~\[,]+|(by|from|recipe)?)\s.*/, ''),
+		title: $('title:first').text().trim().replace(/\s([|\-—:>•·~\[,]+|(by|from|recipe)?)\s.*/, ''),
 		url: window.location.href,
 	};
 }

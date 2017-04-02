@@ -86,7 +86,7 @@
       textarea {
         font-family: 'Raleway', sans-serif;
       }
-      #ingredients, #description {
+      #description {
         box-sizing: border-box;
         padding: 5px;
         min-height: 55px;
@@ -179,26 +179,10 @@
           <div id="more">More Details</div>
 
           <div id="extra-data">
-            <div class="field-title">Ingredients <span class="field-title-small">(One per line)</span></div>
-            <textarea id="ingredients" class="field"></textarea>
             <div class="field-title">Description</div>
             <div type="text" id="description" class="field"contenteditable="true"></div>
             <div class="field-title">Tags <span class="field-title-small">(Comma Separated)</span></div>
             <input type="text" id="tags" class="field">
-            <div id="extra-wrap">
-              <div class="extra-group">
-                <div class="field-title">Serves</div>
-                <input type="text" id="serves" class="field">
-              </div>
-              <div class="extra-group">
-                <div class="field-title">Ready In</div>
-                <input type="text" id="ready-in" class="field" placeholder="mins">
-              </div>
-              <div class="extra-group">
-                <div class="field-title">Calories</div>
-                <input type="text" id="cals" class="field">
-              </div>
-            </div>
           </div>
           <input type="submit" value="Save Recipe" id="save">
         </form>
